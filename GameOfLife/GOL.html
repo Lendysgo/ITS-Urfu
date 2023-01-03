@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Game of Life</title>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  div {
+    height: 1500px;
+    width: 10000px;
+    background: linear-gradient(to bottom, #ebff33 0%, rgb(218, 127, 16) 100%)
+
+  }
+  .btn {
+    background-color: #ddd;
+    border: none;
+    color: black;
+    padding: 16px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition: 0.3s;
+  }
+
+  .btn:hover {
+    background-color: #000000;
+    color: white;
+  }
+
+</style>
+<body>
+<div>
+  <h1> GAME OF LIFE</h1>
+  <canvas id="myCanvas" width="620px" height="620px" style="border:3px solid #000000;">
+  </canvas>
+  <script>
+    function script() {
+
+      const fillSize = 25;
+      const cellSize = 25;
+      let currPop = new Array(fillSize);
+      let nextPop = new Array(fillSize);
+
+      for (let i = 0; i < fillSize; i++) {
+        currPop[i] = new Array(fillSize);
+        nextPop[i] = new Array(fillSize);
+      }
+
+      let c = document.getElementById("myCanvas");
+      let ctx = c.getContext("2d");
+
+      function init() {
+        for (let i = 0; i < fillSize; i++) {
+          for (let j = 0; j < fillSize; j++) {
+            currPop[i][j] = Math.round(Math.random())
+          }
+        }
+      }
+
+      function draw() {
+        for (let i = 0; i < fillSize; i++) {
+          for (let j = 0; j < fillSize; j++) {
+            if (currPop[i][j] == 1)
+              ctx.fillStyle = "#33ccff";
+            else
+              ctx.fillStyle = "#000000";
+            ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+          }
+        }
+      }
+
+      function neighbourCont(i, j) {
+        num = 0;
+        for (let l = -1; l <= 1; l++)
+          for (let k = -1; k <= 1; k++)
+            if ((l != 0) || (k != 0))
+              num += currPop[(i + l + fillSize) % fillSize][(j + k + fillSize) % fillSize];
+        return num
+      }
+
+      function nextGen() {
+        for (let i = 0; i < fillSize; i++) {
+          for (let j = 0; j < fillSize; j++) {
+            nextPop[i][j] = 0;
+            nc = neighbourCont(i, j)
+            if (((currPop[i][j] == 0) && (nc == 3)) || ((currPop[i][j] == 1) && (nc < 4) && (nc > 1)))
+              nextPop[i][j] = 1;
+          }
+        }
+        for (let i = 0; i < fillSize; i++) {
+          for (let j = 0; j < fillSize; j++) {
+            currPop[i][j] = nextPop[i][j];
+          }
+        }
+      }
+
+      function step() {
+        nextGen();
+        draw();
+      }
+
+      init();
+      draw();
+      let tm = setInterval(step, 1000)
+    }
+
+  </script>
+  <p>
+    <button class="btn" onClick='script()'>Star Game</button>
+  </p>
+</div>
+
+</body>
+</html>

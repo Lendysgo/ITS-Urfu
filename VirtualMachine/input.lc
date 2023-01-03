@@ -1,0 +1,5 @@
+input 0
+input 1
+cmpbool 0 > 1 2
+output 2
+exit

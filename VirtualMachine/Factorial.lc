@@ -1,0 +1,11 @@
+stg 0 1
+stg 1 1
+stg 2 1
+input 3
+jumpstart
+add 0 1 1
+multi 1 2 2
+cmp 3 > 1
+jumpfinish
+output 2
+exit
